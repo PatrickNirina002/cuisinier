@@ -38,43 +38,90 @@ class Navbar extends Component {
                
             
             // </ul>
-            <MDBNavbar  color="default-color" dark expand="md" id="eto">
+
+
+          //   <div>
+          //   <MDBNavbar  color="default-color" dark expand="md" id="eto">
             
-            <MDBNavbarToggler onClick={this.toggleCollapse} />
-            <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-              <MDBNavbarNav left>
-              <MDBNavItem>
-            <MDBNavLink to="/client">Home</MDBNavLink>
-          </MDBNavItem>
-          <MDBNavItem>
-            <MDBNavLink to="/poster">Poster</MDBNavLink>
-          </MDBNavItem>
+          //   <MDBNavbarToggler onClick={this.toggleCollapse} />
+          //   <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
+          //     <MDBNavbarNav left>
+          //     <MDBNavItem>
+          //   {/* <MDBNavLink to="/register/:_id">listeProduit</MDBNavLink> */}
+          //   <MDBNavLink to={"/register/"+localStorage.getItem('id')} className="btn btn-primary">listeProduit</MDBNavLink>
+          //   <MDBNavLink to={"/atelier"} className="btn btn-primary">Ajouter de produit</MDBNavLink>
+          // </MDBNavItem>
+          // <MDBNavItem>
+          //   <MDBNavLink to="/poster">Poster</MDBNavLink>
+          // </MDBNavItem>
                 
-                <MDBNavItem>
-                  <MDBDropdown>
+          //       <MDBNavItem>
+          //         <MDBDropdown>
                     
                     
-                  </MDBDropdown>
-                </MDBNavItem>
-              </MDBNavbarNav>
-              <MDBNavbarNav right>
+          //         </MDBDropdown>
+          //       </MDBNavItem>
+          //     </MDBNavbarNav>
+          //     <MDBNavbarNav right>
                 
             
-                <MDBNavItem>
-                  <MDBDropdown>
-                    <MDBDropdownToggle nav caret>
-                      <MDBIcon icon="user" />
-                    </MDBDropdownToggle>
-                    <MDBDropdownMenu className="dropdown-default">
-                      <MDBDropdownItem href="#!" onClick={this.onLogout.bind(this)}>Logout</MDBDropdownItem>
+          //       <MDBNavItem>
+          //         <MDBDropdown>
+          //           <MDBDropdownToggle nav caret>
+          //             <MDBIcon icon="user" />
+          //           </MDBDropdownToggle>
+          //           <MDBDropdownMenu className="dropdown-default">
+          //             <MDBDropdownItem href="#!" onClick={this.onLogout.bind(this)}>Logout</MDBDropdownItem>
                       
-                    </MDBDropdownMenu>
-                  </MDBDropdown>
-                </MDBNavItem>
-              </MDBNavbarNav>
-            </MDBCollapse>
-          </MDBNavbar>
- 
+          //           </MDBDropdownMenu>
+          //         </MDBDropdown>
+          //       </MDBNavItem>
+          //     </MDBNavbarNav>
+          //   </MDBCollapse>
+          // </MDBNavbar>
+          // </div>
+
+
+          <div>
+<div id="top-nav" class="navbar navbar-inverse navbar-static-top eto">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="" id='daholo'>Dashboard</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="a"><i class="fa fa-user-circle"></i> Admin </a>
+                    <ul id="g-account-menu" class="dropdown-menu" role="menu">
+                    <li><a href="a"  onClick={this.onLogout.bind(this)}><i class="fa fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12" id ="aaa">
+
+    <ul  >
+        <li><a href="" className='sac'><i class="fa fa-dashboard" ></i> Dashboard</a></li><br/><br/>
+        <li><Link to={"/atelier"}  className='sac'><i class="fa fa-tags"></i> Ajouter de produit</Link></li><br/><br/>
+        <li><Link to={"/register/"+localStorage.getItem('id')} className='sac'><i class="fa fa-history"></i> Liste de produit</Link></li><br/><br/>
+        {/* <li><a href="a"><i class="fa fa-lock"></i> Change Password</a></li><br/><br/> */}
+
+    </ul>
+</div>
+
+</div>
+
         )
       const guestLinks = (
         // <ul className="navbar-nav ml-auto">
@@ -95,7 +142,7 @@ class Navbar extends Component {
    <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
      <MDBNavbarNav left>
      <MDBNavItem>
-   <MDBNavLink to="/client">Home</MDBNavLink>
+   <MDBNavLink to="/client" id='daholo'>Home</MDBNavLink>
  </MDBNavItem>
  
        
@@ -108,7 +155,7 @@ class Navbar extends Component {
      </MDBNavbarNav>
      <MDBNavbarNav right>
        
-     <MDBNavLink className="waves-effect waves-light" to="/login">
+     <MDBNavLink className="waves-effect waves-light" to="/login" id='daholo'>
               Connecter
             </MDBNavLink>
      </MDBNavbarNav>

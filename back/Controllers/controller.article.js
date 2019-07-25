@@ -58,7 +58,7 @@ exports.create = (req, res) => {
         place_dispo: req.body.place_dispo,
         place_reserve: req.body.place_reserve,
         prix: req.body.prix,
-        photo_profil:'' + nomImage +'.jpg'
+       // photo_profil:'' + nomImage +'.jpg'
     });
 
   

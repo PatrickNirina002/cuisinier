@@ -10,6 +10,7 @@ const validateLoginInput = require('../validation/login');
 const User = require('../Models/User');
 const Atelier = require('../Models/article');
 const Particulier = require('../Models/particulier');
+const fs = require('fs');
 //router.post('/register', function
 exports.create= (req, res)=> {
  User.find().then(use=>{
@@ -45,6 +46,7 @@ exports.create= (req, res)=> {
             const newUser = new User({
                 _id:idautom,
                 name: req.body.name,
+                prenom:req.body.prenom,
                 email: req.body.email,
                 password: req.body.password,
                 avatar
@@ -102,6 +104,8 @@ exports.login= (req, res) => {
                                 if(err) console.error('There is some error in token', err);
                                 else {
                                     res.json({
+                                        id: user.id,
+                                        name: user.name,
                                         success: true,
                                         token: `Bearer ${token}`
                                     });
@@ -135,27 +139,32 @@ exports.crea = (req, res) => {
         else{
             Atelier.find().then(use=>{
                 // const { errors, isValid } = validateRegisterInput2(req.body);
-                var id;
+                var idautom;
                 if(use.length==0){
-                    id=0
+                    idautom=0
                 }
                 else{
-                    id=use[use.length-1]._id+1
+                    idautom=use[use.length-1]._id+1
                 }
-                // if(!isValid) {
-                //     return res.status(400).json(errors);
-                // }
-                // let imageFile1 = req.files.image;
-                // console.log(req.files);
-                
-                //   imageFile1.mv(`${__dirname}/public/${req.body.titre}.jpg`, function(err) {
-                //     if (err) {
-                //       return res.status(500).send("err");
-                //     }
-                //                   })
+                let imageFile = req.files.image;
+                //console.log('inona ny ato o!'+imageFile)
+                let nomImage = idautom
+                res.setHeader('Content-Type', 'text/plain');
+        
+                imageFile.mv(`${__dirname}/public/${nomImage }.jpg`, function(err) {
+                  if (err) {
+                    return res.status(500).send(err);
+                  }
+                  
+                  
+                  //res.send({file:`public/${nomImage }.jpg`});
+                  
+                  
+                });
+            
                   
                         const atelier = new Atelier({
-                            _id:id,
+                            _id:idautom,
                             id2:user._id,
                             titre: req.body.titre , 
                             description: req.body.description,
@@ -165,7 +174,7 @@ exports.crea = (req, res) => {
                             place_dispo: req.body.place_dispo,
                             place_reserve: req.body.place_reserve,
                             prix: req.body.prix,
-                            //image:req.body.titre+".jpg",
+                            image:'' + nomImage +'.jpg',
                             visibilite:""
                             
                         });
@@ -178,7 +187,9 @@ exports.crea = (req, res) => {
                                             .save()
                                             .then(user => {
                                                 res.json(user)
-                                            }).catch(use=>console.log("ereue")
+                                                console.log(user);
+                                                
+                                            }).catch(use=>console.log(use)
                                             ) 
                                     
                                 });   
@@ -212,9 +223,9 @@ exports.getCuis=  (req, res) => {
 //         for(let i=0;i<produit.length;i++){
 //           router.get("/public/"+produit[i].image,(req,res)=>{
 //               var fs = require("fs")
-//              console.log( "./route.js/public/"+produit[i].image);
+//              console.log( "./Controllers/public/"+produit[i].image);
              
-//              var image= fs.readFileSync("./route.js/public/"+produit[i].image)
+//              var image= fs.readFileSync("./Controllers/public/"+produit[i].image)
 //     res.send(image)
 //           })
 //         }
@@ -224,15 +235,40 @@ exports.getCuis=  (req, res) => {
 }
 //router.post("/particulier/:_id",
 exports.createparticulier= (req,res)=>{
-    Particulier.find().then(use=>{
-        // const { errors, isValid } = validateRegisterInput(req.body);
-        var id;
-        if(use.length==0){
+
+
+    Particulier.find().then(us=>{
+        
+        if(us.length==0){
             id=0
         }
         else{
-            id=use[use.length-1]._id+1
+            id=us[us.length-1]._id+1
         }
+     }
+    
+     )
+
+   
+
+
+    Particulier.findOne({
+        email: req.body.email
+    }).then(use=>{
+        if(use) {
+            return res.status(400).json({
+                email: 'Email already exists'
+            });
+        }
+        else{
+        // const { errors, isValid } = validateRegisterInput(req.body);
+        // var id;
+        // if(use.length==0){
+        //     id=0
+        // }
+        // else{
+        //     id=use[use.length-1]._id+1
+        // }
         
        
         Atelier.findById(req.params._id).then(use=>{
@@ -255,7 +291,7 @@ exports.createparticulier= (req,res)=>{
                     place_reserve: use.place_reserve+1,
                     place_dispo: use.place_dispo-1,
                     prix:use.prix,
-                    //image:use.titre,
+                   image:use.image,
                 
                 }).then(upd=>console.log(upd)
                 )
@@ -266,13 +302,15 @@ exports.createparticulier= (req,res)=>{
                                     }); 
                                 });         
                             
+                            }
+
                         }); 
 }
 
 //router.get("/ateliermasquer/:_id",
  exports.masquer= (req,res)=>{
-   Atelier.findOneAndUpdate(use._id, { 
-        visibilite:"false"
+    Atelier.findOneAndUpdate(req.param._id, { 
+        visibilite:false
     
     },{new:true}).then(upd=>res.send(upd)
     )
@@ -284,9 +322,135 @@ exports.gestion=  (req,res)=>{
     // Atelier.findById(req.params._id).then(use=>{
         Atelier.findOneAndUpdate({_id:req.params._id}, {
          
-            visibilite:"true"
+            visibilite:true
         
         },{new:true}).then(upd=>res.send(upd)
         )
     // })
 }
+//router.get("/atelier",
+//  exports.afficher=(req, res) => {
+       
+//     Atelier.find().then(user=>{
+//                console.log(user);
+               
+//                 res.send(user)
+            
+           
+        
+     
+//     })
+
+//     Atelier.find().then(produit=>{
+//         for(let i=0;i<produit.length;i++){
+//           router.get("/hafa/"+produit[i].image,(req,res)=>{
+//               var fs = require("fs")
+//              console.log( "./Controllers/public/"+produit[i].image);
+             
+//              var image= fs.readFileSync("./Controllers/public/"+produit[i].image)
+//     res.send(image)
+//           })
+//         }
+//     })
+          
+// }
+// exports.afficher = (req, res) => {   
+//     Atelier.find()
+//     .then(users => {    
+//         res.send(users);
+//     }).catch(err => {
+//         res.status(500).send({
+//             message: err.message || "Something wrong while retrieving profils."
+//         });
+//     });
+// };
+// exports.lireImage =(req, res) =>{
+//     try {
+//         let picture = fs.readFileSync('./Controllers/public/'+req.params.image)
+//         res.write(picture)
+//         res.end()
+//     } catch (e) {
+//         console.log("erreur be miitsy", e.stack);
+//     }
+//}
+exports.findOneArticle = (req, res) => {
+    try {
+        let picture = fs.readFileSync('./Controllers/public/' + req.params.image)
+        console.log('params: ', req.params.image);
+        res.write(picture)
+        res.end()
+    }
+    catch (e) { console.log("envoie erroné: ", e); }
+}
+exports.findAllArticle = (req, res) => {
+    Atelier.find()
+        .then(article => {
+            console.log(article);
+            
+            res.send(article);
+        }).catch(err => {
+            res.status(500).send(article => {
+                message: err.message || "Something wrong while retrieving profils."
+            });
+        });
+};
+exports.update = (req, res) => {
+    // Validate Request()
+    console.log('ity ny requete'+req.body.titre)
+    if(!req.body.titre || !req.body.description) {
+        return res.status(400).send({
+            message: "eleve content can not be empty"
+        });
+    }
+    console.log('ity n params'+req.params._id)
+    let imageFile = req.files.image;
+        //console.log('inona ny ato o!'+imageFile)
+        let nomImage = req.params._id
+        res.setHeader('Content-Type', 'text/plain');
+
+        imageFile.mv(`${__dirname}/public/${nomImage }.jpg`, function(err) {
+          if (err) {
+            return res.status(500).send(err);
+          }
+        });
+        console.log('tonga eto v nw')
+    // Find and update eleve with the request body
+    Atelier.findByIdAndUpdate(req.params._id, {
+        titre: req.body.titre , 
+                            description: req.body.description,
+                            date: req.body.date,
+                            debut: req.body.debut,
+                            dure: req.body.dure,
+                            place_dispo: req.body.place_dispo,
+                            place_reserve: req.body.place_reserve,
+                            prix: req.body.prix,
+          image:nomImage +'.jpg'
+
+    }, {new: true})
+    .then(user => {
+        if(!user) {
+            return res.status(404).send({
+                message: "eleve not found with id " + req.params._id
+            });
+        }
+        res.send(user);
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "eleve not found with id " + req.params.id
+            });
+        }
+        return res.status(500).send({
+            message: "Something wrong updating note with id " + req.params.id
+        });
+    });
+};
+
+
+
+exports.editebe= (req, res) =>{
+    let id = req.params.id;
+    Atelier.findById(id, function (err, profil){
+        res.json(profil);
+    });
+  };

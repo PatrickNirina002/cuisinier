@@ -12,20 +12,16 @@ const ParticulierSchema = new Schema({
     },
     
     nom: {
-        type: String,
-        required: true
+        type: String
     },
     prenom: {
-        type: String,
-        required: true
+        type: String
     },
     email: {
-        type: String,
-        required: true
+        type: String
     },
     telephone: {
-        type: String,
-        required: true
+        type: String
     },
    
     avatar: {

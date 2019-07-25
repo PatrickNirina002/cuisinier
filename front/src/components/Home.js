@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 //import ReactImageMagnify from 'react-image-magnify';
-
+import {Link } from 'react-router-dom';
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 export default class Home extends Component {
 
     constructor(props) {
@@ -11,10 +12,11 @@ export default class Home extends Component {
 
     }
     componentDidMount() {
-        axios.get('http://localhost:8080/profil')
+        axios.get('http://localhost:8080/affichertous')
             .then(response => {
-                console.log('i am a response', response)
+                console.log(response.data);
                 this.setState({ profil: response.data });
+                localStorage.setItem('atelier',response.data._id)
             })
             .catch(function (error) {
                 console.log(error);
@@ -31,7 +33,7 @@ export default class Home extends Component {
                         {
                             (this.state.profil.length > 0) ? (this.state.profil.map((obj) => {
                                 return (
-<div class="col-md-2 carde">
+<div class="col-md-4 carde">
 <div class="card">
 
 
@@ -40,20 +42,26 @@ export default class Home extends Component {
 <div class="card-body">
 
   
-  <h4 class="card-title">{obj.titre}</h4>
-  <img width="250px" height="250px" src={'http://localhost:8080/user/'+obj.photo_profil} alt="pdp" />
-  <p class="card-text">{obj.description}</p>
-  <p class="card-text">{obj.date}</p>
-  <p class="card-text">{obj.debut}</p>
-  <p class="card-text">{obj.dure}</p>
-  <p class="card-text">{obj.place_dispo}</p>
-  <p class="card-text">{obj.place_reserve}</p>
-  <p class="card-text">{obj.prix}</p>
-  <a data-toggle="tooltip" data-placement="top" title="Add to Cart">  <i class="fas fa-shopping-cart grey-text ml-3"></i> </a>
+  <h4 class="card-title" id="titrebe"><center>{obj.titre}</center> </h4>
+  <div className="container"><img width="90%" height="300px" src={'http://localhost:8080/user/'+obj.image} alt="pdp" /></div>
+  <p class="card-text">Description: {obj.description}</p>
+  <p class="card-text">Date:{obj.date}</p>
+  <p class="card-text">Horaire de debut:{obj.debut}</p>
+  <p class="card-text">Durée: {obj.dure}</p>
+  <p class="card-text">Nombre de place disponible:{obj.place_dispo}</p>
+  <p class="card-text">Nombre de place reserve: {obj.place_reserve}</p>
+  <p class="card-text">Prix: {obj.prix}</p>
+  <Link className="btn btn-primary" to={"/particulier/"+obj._id} onClick={()=>{
+      console.log(obj.id2);
+      localStorage.setItem('ti',obj._id)
+      
+  }}>  S'inscrire </Link>
 
 </div>
 </div>
 </div>)
+
+
 
                             })) : ('')
                         }

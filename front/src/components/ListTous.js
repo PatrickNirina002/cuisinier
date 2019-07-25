@@ -11,10 +11,13 @@ export default class ListTous extends Component {
 
     }
     componentDidMount() {
-        axios.get('http://localhost:8080/profil')
+        axios.get('http://localhost:8080/affichertous')
             .then(response => {
-                console.log('i am a response', response)
+                console.log(response.data._id);
                 this.setState({ profil: response.data });
+                localStorage.setItem('atelier',response.data._id)
+                
+                
             })
             .catch(function (error) {
                 console.log(error);
@@ -40,10 +43,10 @@ export default class ListTous extends Component {
 <div class="card-body">
 
   
-  <h4 class="card-title">{obj.nom}</h4>
-  <img className='imag' src={'http://localhost:8080/user/'+obj.photo_profil} alt="pdp" />
-  <p class="card-text">{obj.email}</p>
-  <a  class="btn btn-primary">{obj.password}</a><br/>
+  <h4 class="card-title">{obj.titre}</h4>
+  <img className='imag' src={'http://localhost:8080/user/'+obj.image} alt="pdp" />
+  <p class="card-text">{obj.description}</p>
+  <a  class="btn btn-primary">{obj.date}</a><br/>
   <a data-toggle="tooltip" data-placement="top" title="Add to Cart">  <i class="fas fa-shopping-cart grey-text ml-3"></i> </a>
 
 </div>

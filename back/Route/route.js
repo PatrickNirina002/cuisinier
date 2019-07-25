@@ -27,6 +27,13 @@ app.get('/me', passport.authenticate('jwt', { session: false }),model.logout);
 app.post("/particulier/:_id",model.createparticulier);
 app.get("/affichier/:_id",model.gestion);
 app.get("/masquer/:_id",model.masquer);
+app.get("/affichertous",model.findAllArticle);
+app.get('/user/:image', model.findOneArticle);
+
+app.put('/profil/:_id', model.update);
+
+app.get('ateliere/:id',model.editebe)
+// app.get('/profil/:id', model.edit);
 //publish
 
 
@@ -35,7 +42,7 @@ app.get("/masquer/:_id",model.masquer);
     app.post('/profil', pers.create);
     app.get('/profil', pers.findAll);
     app.get('/profil/:profilId', pers.findOne);
-    app.get('/user/:photo_profil', pers.lireImage);
+    //app.get('/user/:photo_profil', pers.lireImage);
     // app.put('/profil/:id', pers.editlist);
     // app.get('/profil/:id', pers.edit);
     //

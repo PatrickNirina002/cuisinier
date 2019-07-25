@@ -6,15 +6,15 @@ const UserSchema = mongoose.Schema({
     id2:{
         type:Number
     },
-    titre: { type: String, required: true},
-    description: { type: String, required: true},
-    date: { type: String, required: true },
-    debut: { type: String, required: true },
-    dure: { type: Number, required: true },
-    place_dispo: { type: Number, required: true },
-    place_reserve: { type: Number, required: true },
-    prix: { type: Number, required: true },
-    photo_profil:String,
+    titre: { type: String},
+    description: { type: String},
+    date: { type: String},
+    debut: { type: String },
+    dure: { type: String },
+    place_dispo: { type: Number },
+    place_reserve: { type: Number },
+    prix: { type: Number},
+    image:String,
     visibilite: {
         type:String   
     },
@@ -25,7 +25,7 @@ const UserSchema = mongoose.Schema({
 }
 );
 
-module.exports = mongoose.model('profile', UserSchema);
+module.exports = mongoose.model('atelier', UserSchema);
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
